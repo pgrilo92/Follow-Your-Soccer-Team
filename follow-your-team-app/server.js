@@ -7,6 +7,11 @@ var methodOverride = require('method-override')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+let leaguesRouter = require('./routes/leagues')
+let teamsRouter = require('./routes/teams')
+let playersRouter = require('./routes/players')
+
+require('dotenv').config()
 
 var app = express();
 
@@ -23,6 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/leagues', leaguesRouter)
+app.use('/teams', teamsRouter)
+app.user('/players', playersRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
