@@ -19,6 +19,11 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept")
+  next()
+})
+
 app.use(methodOverride('_method'))
 app.use(logger('dev'));
 app.use(express.json());
@@ -26,11 +31,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000/");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/leagues', leaguesRouter)
-app.use('/teams', teamsRouter)
-app.user('/players', playersRouter)
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   res.header('Access-Control-Allow-Headers', '*')
+//   if(req.method ==='OPTIONS') {
+//     res.header('Access-Control-Allow-Methods', '*')
+//     return res.status(200).json({})
+//   }
+// })
+// app.use('/leagues', leaguesRouter)
+// app.use('/teams', teamsRouter)
+// app.user('/players', playersRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
